@@ -1,2 +1,3 @@
-gtl-blackjack
-=============
+Blackjack
+=========
+-procedural blackjack implementation
