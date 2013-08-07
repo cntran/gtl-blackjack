@@ -1,0 +1,3 @@
+Blackjack
+=========
+-procedural blackjack implementation
