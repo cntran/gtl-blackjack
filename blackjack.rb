@@ -1,13 +1,14 @@
+# set up the world
 deck = { "clubs" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
 	       "diamonds" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
          "hearts" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
          "spades" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']}
 
 
-
 dealer_cards = []
 player_cards = []
 
+# methods
 def deal_card deck
 
   suit_index = ["clubs", "diamonds", "hearts", "spades"]
@@ -64,12 +65,26 @@ def card_count cards
   return count
 end
 
-def display_hand cards
-	cards.each do |i|
- 	 print i["value"] + ' of ' + i["suit"] + ', '
+def display_hand cards, player
+
+	print "["
+	for i in 0..cards.count - 1
+ 	 print cards[i]["value"] + ' of ' + cards[i]["suit"]
+ 	 if i < cards.count - 1
+ 	 	print ', '
+ 	 end
 	end
-	puts "(" + card_count(cards).to_s + ")"
+	puts "]"
+	puts "Value of " + player + " cards: " + card_count(cards).to_s
+
 end
+
+
+# Game start
+puts "Lets play some Blackjack! What's your name?"
+player_name = gets.chomp
+
+puts "Hello " + player_name + ". Let's go, here are your cards: "
 
 # Initial deal of cards to player and dealer (2 cards to each person):
 for i in 0..1
@@ -88,13 +103,8 @@ for i in 0..1
   dealer_cards.push(dealt_card)
 end
 
-display_hand(player_cards)
-
-#dealer_cards.each do |i|
-#  puts i["value"] + ' of ' + i["suit"]
-#end
-#puts card_count(dealer_cards)
-
+display_hand(player_cards, 'your')
+puts "Dealer is showing a face up card of " + dealer_cards[1]["value"] + ' of ' + dealer_cards[1]["suit"] 
 
 # Allow player to get more cards:
 begin
@@ -106,7 +116,7 @@ begin
   	dealt_card = dealt_card_and_deck["dealt_card"]
 
   	player_cards.push(dealt_card)
-  	display_hand(player_cards)
+  	display_hand(player_cards, 'your')
 	end
 end while card_count(player_cards) < 22 && reply == "1"
 
@@ -123,7 +133,7 @@ else
   	dealer_cards.push(dealt_card)
 	end
 
-	display_hand(dealer_cards)
+	display_hand(dealer_cards, 'dealer')
 	if card_count(dealer_cards) > 21
 		puts "Dealer busted! You win!"
 	elsif card_count(dealer_cards) > card_count(player_cards)
@@ -133,6 +143,6 @@ else
 	else
 		puts "You push."
 	end
-
+	
 end
 
