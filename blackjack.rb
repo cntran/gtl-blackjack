@@ -92,7 +92,7 @@ for i in 0..1
   dealt_card_and_deck = deal_card( deck )
   deck = dealt_card_and_deck["deck"]
   dealt_card = dealt_card_and_deck["dealt_card"]
-
+ 
   player_cards.push(dealt_card)
 
   # deal a card to dealer
@@ -143,6 +143,6 @@ else
 	else
 		puts "You push."
 	end
-	
+
 end
 
