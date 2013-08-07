@@ -1,4 +1,4 @@
-# set up the world
+# 1. Set up the world
 deck = { "clubs" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
 	       "diamonds" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
          "hearts" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'],
@@ -8,17 +8,17 @@ deck = { "clubs" => ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'
 dealer_cards = []
 player_cards = []
 
-# methods
-def deal_card deck
+# 2. Method definitions
+def deal_card(deck)
 
   suit_index = ["clubs", "diamonds", "hearts", "spades"]
 
-  # select card from deck at random
+  # Select a card from deck at random
   random_suit = suit_index[rand(4)]
   random_card_index = rand(deck[random_suit].length)
   dealt_card = { "suit" => random_suit, "value" => deck[random_suit][random_card_index] }
 	
-  # remove card from deck
+  # Remove the card from deck
   deck[random_suit].delete_at(random_card_index)
 
   dealt_card_and_deck = { "dealt_card" => dealt_card, "deck" => deck }
@@ -27,7 +27,7 @@ def deal_card deck
 
 end
 
-def card_count cards 
+def card_count(cards) 
 
 	card_values = {"2" => 2, "3" => 3, "4" => 4, "5" => 5, 
 	           		 "6" => 6, "7" => 7, "8" => 8, "9" => 9, 
@@ -35,7 +35,7 @@ def card_count cards
 
 	count = 0
 	aces_count = 0
-	# count non - Aces
+	# Count up non Ace cards
   cards.each do |i|
   	if i["value"] != "A" 
   		count = count + card_values[i["value"]]
@@ -44,7 +44,7 @@ def card_count cards
   	end 
   end
 
-  # count Aces (maximize total without going over 21)
+  # Count all Ace cards (maximize total without going over 21)
   if aces_count > 0
 	  max_aces_value = 0
 	  min_aces_value = 0
@@ -65,7 +65,7 @@ def card_count cards
   return count
 end
 
-def display_hand cards, player
+def display_hand(cards, player)
 
 	print "["
 	for i in 0..cards.count - 1
@@ -79,23 +79,22 @@ def display_hand cards, player
 
 end
 
-
-# Game start
+# 3. Start the game
 puts "Lets play some Blackjack! What's your name?"
 player_name = gets.chomp
 
 puts "Hello " + player_name + ". Let's go, here are your cards: "
 
-# Initial deal of cards to player and dealer (2 cards to each person):
+# Initial deal of cards to player and dealer (2 cards to each player):
 for i in 0..1
-  # deal a card to player
+  # Deal a card to player
   dealt_card_and_deck = deal_card( deck )
   deck = dealt_card_and_deck["deck"]
   dealt_card = dealt_card_and_deck["dealt_card"]
  
-  player_cards.push(dealt_card)
+  player_cards.push(dealt_card) 
 
-  # deal a card to dealer
+  # Deal a card to dealer
   dealt_card_and_deck = deal_card( deck )
   deck = dealt_card_and_deck["deck"]
   dealt_card = dealt_card_and_deck["dealt_card"]
@@ -124,7 +123,7 @@ end while card_count(player_cards) < 22 && reply == "1"
 if (card_count(player_cards) > 21)
 	puts "Oh no! You busted! You lose!"
 else
-	#dealer's move
+	# Dealer's turn to take action
 	while card_count(dealer_cards) < 17
 		dealt_card_and_deck = deal_card( deck )
   	deck = dealt_card_and_deck["deck"]
